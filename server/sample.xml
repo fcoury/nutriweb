@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<foods xmlns="http://platform.fatsecret.com/api/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://platform.fatsecret.com/api/1.0/ http://platform.fatsecret.com/api/1.0/fatsecret.xsd">
+  <max_results>20</max_results>
+  <total_results>78</total_results>
+  <page_number>0</page_number>
+  <food>
+    <food_id>35755</food_id>
+    <food_name>Bananas</food_name>
+    <food_type>Generic</food_type>
+    <food_url>http://www.fatsecret.com/calories-nutrition/usda/bananas</food_url>
+    <food_description>Per 100g - Calories: 89kcal | Fat: 0.33g | Carbs: 22.84g | Protein: 1.09g</food_description>
+  </food>
+  <food>
+    <food_id>5388</food_id>
+    <food_name>Banana</food_name>
+    <food_type>Generic</food_type>
+    <food_url>http://www.fatsecret.com/calories-nutrition/generic/banana-raw</food_url>
+    <food_description>Per 100g - Calories: 89kcal | Fat: 0.33g | Carbs: 22.84g | Protein: 1.09g</food_description>
+  </food>
+  <food>
+    <food_id>624623</food_id>
+    <food_name>Bananas</food_name>
+    <brand_name>Dole</brand_name>
+    <food_type>Brand</food_type>
+    <food_url>http://www.fatsecret.com/calories-nutrition/dole/bananas</food_url>
+    <food_description>Per 1 medium - Calories: 110kcal | Fat: 0.30g | Carbs: 29.00g | Protein: 1.00g</food_description>
+  </food>
+  <food>
+    <food_id>3864996</food_id>
+    <food_name>Banana</food_name>
+    <brand_name>Chiquita </brand_name>
+    <food_type>Brand</food_type>
+    <food_url>http://www.fatsecret.com/calories-nutrition/chiquita/banana</food_url>
+    <food_description>Per 1 medium banana - Calories: 110kcal | Fat: 0.00g | Carbs: 30.00g | Protein: 1.00g</food_description>
+  </food>
+  <food>
+    <food_id>886932</food_id>
+    <food_name>Mini Banana</food_name>
+    <brand_name>Chiquita</brand_name>
+    <food_type>Brand</food_type>
+    <food_url>http://www.fatsecret.com/calories-nutrition/chiquita/mini-banana</food_url>
+    <food_description>Per 1 mini banana - Calories: 55kcal | Fat: 0.00g | Carbs: 14.50g | Protein: 0.50g</food_description>
+  </food>
+  <food>
+    <food_id>69416</food_id>
+    <food_name>Bananas (Large)</food_name>
+    <brand_name>Giant Food</brand_name>
+    <food_type>Brand</food_type>
+    <food_url>http://www.fatsecret.com/calories-nutrition/giant-food/bananas-(large)</food_url>
+    <food_description>Per 1 banana - Calories: 121kcal | Fat: 0.00g | Carbs: 31.00g | Protein: 1.00g</food_description>
+  </food>
+  <food>
+    <food_id>1823250</food_id>
+    <food_name>Banana</food_name>
+    <brand_name>Del Monte</brand_name>
+    <food_type>Brand</food_type>
+    <food_url>http://www.fatsecret.com/calories-nutrition/del-monte/banana</food_url>
+    <food_description>Per 1 medium - Calories: 110kcal | Fat: 0.00g | Carbs: 29.00g | Protein: 1.00g</food_description>
+  </food>
+  <food>
+    <food_id>547041</food_id>
+    <food_name>Organic Bananas</food_name>
+    <brand_name>Dole</brand_name>
+    <food_type>Brand</food_type>
+    <food_url>http://www.fatsecret.com/calories-nutrition/dole/organic-bananas</food_url>
+    <food_description>Per 1 medium - Calories: 110kcal | Fat: 0.00g | Carbs: 29.00g | Protein: 1.00g</food_description>
+  </food>
+  <food>
+    <food_id>983492</food_id>
+    <food_name>Mini Bananas</food_name>
+    <brand_name>Del Monte</brand_name>
+    <food_type>Brand</food_type>
+    <food_url>http://www.fatsecret.com/calories-nutrition/del-monte/mini-bananas</food_url>
+    <food_description>Per 2 mini bananas - Calories: 90kcal | Fat: 0.00g | Carbs: 24.00g | Protein: 1.00g</food_description>
+  </food>
+  <food>
+    <food_id>5839</food_id>
+    <food_name>Cooked Green Banana in Salt Water</food_name>
+    <food_type>Generic</food_type>
+    <food_url>http://www.fatsecret.com/calories-nutrition/generic/green-banana-cooked-(in-salt-water)</food_url>
+    <food_description>Per 101g - Calories: 89kcal | Fat: 0.33g | Carbs: 22.84g | Protein: 1.09g</food_description>
+  </food>
+  <food>
+    <food_id>5395</food_id>
+    <food_name>Fried Ripe Banana</food_name>
+    <food_type>Generic</food_type>
+    <food_url>http://www.fatsecret.com/calories-nutrition/generic/banana-ripe-fried</food_url>
+    <food_description>Per 132g - Calories: 255kcal | Fat: 14.37g | Carbs: 34.03g | Protein: 1.64g</food_description>
+  </food>
+  <food>
+    <food_id>5840</food_id>
+    <food_name>Fried Green Banana</food_name>
+    <food_type>Generic</food_type>
+    <food_url>http://www.fatsecret.com/calories-nutrition/generic/green-banana-fried</food_url>
+    <food_description>Per 128g - Calories: 217kcal | Fat: 11.78g | Carbs: 29.95g | Protein: 1.44g</food_description>
+  </food>
+  <food>
+    <food_id>5390</food_id>
+    <food_name>Apple Banana</food_name>
+    <food_type>Generic</food_type>
+    <food_url>http://www.fatsecret.com/calories-nutrition/generic/banana-apple-raw</food_url>
+    <food_description>Per 100g - Calories: 89kcal | Fat: 0.33g | Carbs: 22.84g | Protein: 1.09g</food_description>
+  </food>
+  <food>
+    <food_id>35942</food_id>
+    <food_name>Plantains</food_name>
+    <food_type>Generic</food_type>
+    <food_url>http://www.fatsecret.com/calories-nutrition/usda/plantains</food_url>
+    <food_description>Per 100g - Calories: 122kcal | Fat: 0.37g | Carbs: 31.89g | Protein: 1.30g</food_description>
+  </food>
+  <food>
+    <food_id>561943</food_id>
+    <food_name>Red Banana</food_name>
+    <brand_name>Dole</brand_name>
+    <food_type>Brand</food_type>
+    <food_url>http://www.fatsecret.com/calories-nutrition/dole/red-banana</food_url>
+    <food_description>Per 1 medium banana - Calories: 110kcal | Fat: 0.00g | Carbs: 29.00g | Protein: 1.00g</food_description>
+  </food>
+  <food>
+    <food_id>116469</food_id>
+    <food_name>Frozen Chocolate Covered Banana</food_name>
+    <brand_name>Trader Joe's</brand_name>
+    <food_type>Brand</food_type>
+    <food_url>http://www.fatsecret.com/calories-nutrition/trader-joes/frozen-chocolate-covered-banana</food_url>
+    <food_description>Per 1 banana - Calories: 160kcal | Fat: 8.00g | Carbs: 19.00g | Protein: 0.00g</food_description>
+  </food>
+  <food>
+    <food_id>58432</food_id>
+    <food_name>Burro Banana</food_name>
+    <brand_name>Frieda's</brand_name>
+    <food_type>Brand</food_type>
+    <food_url>http://www.fatsecret.com/calories-nutrition/friedas/burro-banana</food_url>
+    <food_description>Per 1 banana - Calories: 80kcal | Fat: 0.00g | Carbs: 20.00g | Protein: 1.00g</food_description>
+  </food>
+  <food>
+    <food_id>1666497</food_id>
+    <food_name>Sweet Plantains</food_name>
+    <brand_name>Pollo Tropical</brand_name>
+    <food_type>Brand</food_type>
+    <food_url>http://www.fatsecret.com/calories-nutrition/pollo-tropical/sweet-plantains</food_url>
+    <food_description>Per 5 pieces - Calories: 450kcal | Fat: 11.00g | Carbs: 85.00g | Protein: 3.00g</food_description>
+  </food>
+  <food>
+    <food_id>2200332</food_id>
+    <food_name>Banana Chips</food_name>
+    <brand_name>Amma's Kitchen</brand_name>
+    <food_type>Brand</food_type>
+    <food_url>http://www.fatsecret.com/calories-nutrition/ammas-kitchen/banana-chips</food_url>
+    <food_description>Per 1 oz - Calories: 140kcal | Fat: 8.00g | Carbs: 18.00g | Protein: 0.00g</food_description>
+  </food>
+  <food>
+    <food_id>2287237</food_id>
+    <food_name>Banana Dippers</food_name>
+    <brand_name>Dole</brand_name>
+    <food_type>Brand</food_type>
+    <food_url>http://www.fatsecret.com/calories-nutrition/dole/banana-dippers</food_url>
+    <food_description>Per 4 slices - Calories: 100kcal | Fat: 4.50g | Carbs: 13.00g | Protein: 1.00g</food_description>
+  </food>
+</foods>
