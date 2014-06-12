@@ -8,7 +8,10 @@ angular.module('Nutri').controller "MainCtrl", ['FoodFactory', '$scope', (FoodFa
     $scope.foodSearch.search($scope.term).then (data) ->
       console.log 'data', data
       $scope.foods = data
+      $scope.error = null
 
     , (error) ->
       console.log 'error', error
+      $scope.foods = null
+      $scope.error = error.Message
 ]

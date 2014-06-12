@@ -34,6 +34,11 @@ type Foods struct {
   FoodList []Food `xml:"food"`
 }
 
+type Error struct {
+  Code int `xml:"code"`
+  Message string `xml:"message"`
+}
+
 func (s Food) String() string {
   return fmt.Sprintf("%d - %s - %s - %s\n%s\n%s\n", s.Id, s.Name, s.Brand, s.Type, s.Url, s.Description)
 }
@@ -42,22 +47,37 @@ func (s Foods) String() string {
   return fmt.Sprintf("%d, %d", s.MaxResults, s.TotalResults)
 }
 
-func SearchFood(query string) (*Foods, error) {
+func SearchFood(query string) (*Foods, *Error, error) {
   result, err := Query(query)
   if err != nil {
-    return nil, err
+    return nil, nil, err
   }
 
-  foods, err := ParseFoods(result)
-  if err != nil {
-    return nil, err
+  if strings.Contains(string(result), "<error") {
+    fmt.Println("ERROR DETECTED")
+    error, err := ParseError(result)
+    if err != nil {
+      return nil, nil, err
+    }
+    return nil, &error, nil
+  } else {
+    foods, err := ParseFoods(result)
+    if err != nil {
+      return nil, nil, err
+    }
+    return &foods, nil, nil
   }
-
-  return &foods, nil
 }
 
 func ParseFoods(b []byte) (Foods, error) {
   var q Foods
+  xml.Unmarshal(b, &q)
+
+  return q, nil
+}
+
+func ParseError(b []byte) (Error, error) {
+  var q Error
   xml.Unmarshal(b, &q)
 
   return q, nil
@@ -122,11 +142,17 @@ func Query(query string) ([]byte, error) {
   }
   // Defer the closing of the body
   defer resp.Body.Close()
+
+  fmt.Println(fmt.Sprintf("Response code: %d", resp.StatusCode))
+
   // Read the content into a byte array
   body, err := ioutil.ReadAll(resp.Body)
   if err != nil {
     return nil, err
   }
+
+  fmt.Println(string(body))
+
   // At this point we're done - simply return the bytes
   return body, nil
 }

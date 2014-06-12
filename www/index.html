@@ -19,8 +19,14 @@
       {{ foods.TotalResults }} results
 
       <ul>
-        <li ng-repeat="food in foods.FoodList">{{ food.Id }} - {{ food.Brand }} - {{ food.Name }}</li>
+        <li ng-repeat="food in foods.FoodList">
+          <a href="{{ food.Url }}">{{ food.Brand }}<span ng-show="food.Brand"> - </span>{{ food.Name }}</a>
+        </li>
       </ul>
+    </div>
+
+    <div ng-show="error">
+      Error: {{error}}
     </div>
   </body>
 </html>
