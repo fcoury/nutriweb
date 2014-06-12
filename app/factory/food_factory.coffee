@@ -3,10 +3,7 @@ angular.module('Nutri').factory "FoodFactory", ($location, $q, $http) ->
   class FoodFactory
     constructor: (@apiKey, @sharedSecret) ->
 
-    search: (term) ->
-      result = @request ['/food', q: term]
-
-      console.log result
+    search: (term) -> @request ["/foods?q=#{term}"]
 
     request: (method, config) ->
       if !config and angular.isObject(method)

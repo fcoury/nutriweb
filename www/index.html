@@ -12,6 +12,15 @@
   </head>
 
   <body ng-controller="MainCtrl">
-    {{ name }}
+    <input ng-model="term">
+    <button ng-click="findFood()">Search</button>
+
+    <div ng-show="foods">
+      {{ foods.TotalResults }} results
+
+      <ul>
+        <li ng-repeat="food in foods.FoodList">{{ food.Id }} - {{ food.Brand }} - {{ food.Name }}</li>
+      </ul>
+    </div>
   </body>
 </html>
