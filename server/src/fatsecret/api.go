@@ -99,8 +99,6 @@ func Query(query string) ([]byte, error) {
 
   sigBaseStr := "POST&" + url.QueryEscape(fatSecretUrl) + "&" + url.QueryEscape(paramStr)
 
-  fmt.Println(sigBaseStr)
-
   sharedSecret := "de666f86e8634a77947c02fc39cf33cd&" // fatSecretConsumerKey + "&" + fatSecretAccessSecret
 
   hasher := hmac.New(sha1.New, []byte(sharedSecret))
