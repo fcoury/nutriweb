@@ -43,30 +43,30 @@ func foodsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func foodHandler(w http.ResponseWriter, r *http.Request) {
-  id := r.FormValue("id")
-  fmt.Println("Food id: " + id)
-  food_details, _, err := fatsecret.GetFood(id)
+	id := r.FormValue("id")
+	fmt.Println("Food id: " + id)
+	food_details, _, err := fatsecret.GetFood(id)
 
-  if err != nil {
-    fmt.Fprintf(w, "Error 4")
-    return
-  }
+	if err != nil {
+		fmt.Fprintf(w, "Error 4")
+		return
+	}
 
-  js, err := json.Marshal(food_details)
-  if err != nil {
-    fmt.Fprintf(w, "Error 5")
-    return
-  }
+	js, err := json.Marshal(food_details)
+	if err != nil {
+		fmt.Fprintf(w, "Error 5")
+		return
+	}
 
-  w.Header().Set("Content-Type", "application/json")
-  w.Write(js)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
 }
 
 func main() {
 	http.HandleFunc("/foods", foodsHandler)
-  http.HandleFunc("/food", foodHandler)
+	http.HandleFunc("/food", foodHandler)
 
-  // static
+	// static
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("../www/" + r.URL.Path[1:])
 		http.ServeFile(w, r, "../www/"+r.URL.Path[1:])

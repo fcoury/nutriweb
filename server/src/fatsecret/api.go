@@ -14,25 +14,25 @@ import (
 )
 
 func SearchFood(query string) (*Foods, *Error, error) {
-  result, err := SearchFoodQuery(query)
-  if err != nil {
-    return nil, nil, err
-  }
+	result, err := SearchFoodQuery(query)
+	if err != nil {
+		return nil, nil, err
+	}
 
-  error, err := CheckError(result)
-  if err != nil {
-  	return nil, nil, err
-  }
+	error, err := CheckError(result)
+	if err != nil {
+		return nil, nil, err
+	}
 
-  if error != nil {
-  	return nil, error, nil
-  }
+	if error != nil {
+		return nil, error, nil
+	}
 
-  foods, err := ParseFoods(result)
-  if err != nil {
-    return nil, nil, err
-  }
-  return &foods, nil, nil
+	foods, err := ParseFoods(result)
+	if err != nil {
+		return nil, nil, err
+	}
+	return &foods, nil, nil
 }
 
 func GetFood(id string) (*FoodDetails, *Error, error) {
@@ -41,14 +41,14 @@ func GetFood(id string) (*FoodDetails, *Error, error) {
 		return nil, nil, err
 	}
 
-  error, err := CheckError(result)
-  if err != nil {
-  	return nil, nil, err
-  }
+	error, err := CheckError(result)
+	if err != nil {
+		return nil, nil, err
+	}
 
-  if error != nil {
-  	return nil, error, nil
-  }
+	if error != nil {
+		return nil, error, nil
+	}
 
 	food_detail, err := ParseFoodDetails(result)
 	if err != nil {
