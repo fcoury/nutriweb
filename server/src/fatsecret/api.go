@@ -5,20 +5,16 @@ import (
 	"crypto/sha1"
 	"encoding/base64"
 	"encoding/xml"
-	"encoding/hex"
+  "math/rand"
 	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"regexp"
+	// "regexp"
 	"strconv"
 	"strings"
 	"time"
-
-	// "utils"
-
-	"github.com/dchest/uniuri"
 )
 
 type Food struct {
@@ -95,27 +91,29 @@ func Sign(base string, secret string) (string) {
 
 func Get(getUrl string, params map[string]string) ([]byte, error) {
 	fatSecretAccessSecret := "de666f86e8634a77947c02fc39cf33cd"
-	getUrl = getUrl + "?"
+	// getUrl = getUrl + "?"
 
+  paramsStr := ""
 	for k, v := range params {
-		getUrl += k + "=" + url.QueryEscape(v) + "&"
+		paramsStr += k + "=" + url.QueryEscape(v) + "&"
 	}
 
-	getUrl = strings.TrimSuffix(getUrl, "&")
+	paramsStr = strings.TrimSuffix(paramsStr, "&")
 
-	fmt.Println(getUrl)
+  fmt.Println(getUrl)
+	fmt.Println(paramsStr)
 
-	sigBaseStr := "GET&" + url.QueryEscape(getUrl)
-	sharedSecret := fatSecretAccessSecret + "&"
+  sigBaseStr := "GET&" + url.QueryEscape(getUrl) + "&" + url.QueryEscape(paramsStr)
+  sharedSecret := fatSecretAccessSecret + "&"
 
-	sig := url.QueryEscape(Sign(sigBaseStr, sharedSecret))
-	fmt.Println(sigBaseStr)
+  sig := url.QueryEscape(Sign(sigBaseStr, sharedSecret))
+  fmt.Println("Sig: " + sig)
 
-	getUrl += "&oauth_signature=" + sig
+	paramsStr += "&oauth_signature=" + sig
 
-	fmt.Println(getUrl)
+	fmt.Println(getUrl + "?" + paramsStr)
 
-	resp, err := http.Get(getUrl)
+	resp, err := http.Get(getUrl + "?" + paramsStr)
 
 	fmt.Println(fmt.Sprintf("Response code: %d", resp.StatusCode))
 
@@ -132,11 +130,29 @@ func Get(getUrl string, params map[string]string) ([]byte, error) {
 }
 
 func Post(postUrl string, params map[string]string) ([]byte, error) {
+  fatSecretAccessSecret := "de666f86e8634a77947c02fc39cf33cd"
 	values := url.Values{}
 
 	for k, v := range params {
 		values.Add(k, v)
 	}
+
+  paramStr := ""
+
+  for k, v := range values {
+    paramStr = paramStr + "&" + k + "=" + url.QueryEscape(v[0])
+  }
+
+  paramStr = strings.TrimPrefix(paramStr, "&")
+
+  sigBaseStr := "POST&" + url.QueryEscape(postUrl) + "&" + url.QueryEscape(paramStr)
+  sharedSecret := fatSecretAccessSecret + "&"
+
+  fmt.Println("sigBaseStr: " + sigBaseStr)
+
+  oauth_signature := Sign(sigBaseStr, sharedSecret)
+
+  values.Add("oauth_signature", oauth_signature)
 
 	resp, err := http.PostForm(postUrl, values)
 	if err != nil {
@@ -164,15 +180,8 @@ func Query(query string) ([]byte, error) {
 	fatSecretConsumerKey := "62cc7c5caaf542668006fc70cbfdabae"
 	fatSecretAccessSecret := "de666f86e8634a77947c02fc39cf33cd"
 
-	oauth_nonce := hex.EncodeToString([]byte(uniuri.New()))
 	oauth_timestamp := strconv.FormatInt(time.Now().Unix(), 10)
-
-	reg, err := regexp.Compile("[^a-z]")
-	if err != nil {
-		return nil, err
-	}
-
-	oauth_nonce = reg.ReplaceAllString(oauth_nonce, "")
+  oauth_nonce := strconv.FormatInt(rand.Int63(), 16) // + strconv.FormatInt(rand.Int63(), 16)
 
 	apiValues := make(map[string]string)
 	apiValues["method"] = "foods.search"
@@ -181,7 +190,7 @@ func Query(query string) ([]byte, error) {
 	apiValues["oauth_signature_method"] = "HMAC-SHA1"
 	apiValues["oauth_timestamp"] = oauth_timestamp
 	apiValues["oauth_version"] = "1.0"
-	apiValues["search_expression"] = query
+	apiValues["search_expression"] = strings.Replace(query, " ", "+", -1)
 
 	paramStr := ""
 
@@ -199,5 +208,5 @@ func Query(query string) ([]byte, error) {
 	fmt.Println("Signature: " + oauth_signature)
 
 	body, err := Get(fatSecretUrl, apiValues)
-	return body, nil
+	return body, err
 }
