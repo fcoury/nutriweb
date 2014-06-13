@@ -1,5 +1,10 @@
 package fatsecret
 
+import (
+  "fmt"
+  "encoding/xml"
+)
+
 type Food struct {
   Id          int    `xml:"food_id"`
   Name        string `xml:"food_name"`
@@ -55,4 +60,33 @@ type FoodDetails struct {
 type Error struct {
   Code    int    `xml:"code"`
   Message string `xml:"message"`
+}
+
+func (s Food) String() string {
+  return fmt.Sprintf("%d - %s - %s - %s\n%s\n%s\n", s.Id, s.Name, s.Brand, s.Type, s.Url, s.Description)
+}
+
+func (s Foods) String() string {
+  return fmt.Sprintf("%d, %d", s.MaxResults, s.TotalResults)
+}
+
+func ParseFoodDetails(b []byte) (FoodDetails, error) {
+  var q FoodDetails
+  xml.Unmarshal(b, &q)
+
+  return q, nil
+}
+
+func ParseFoods(b []byte) (Foods, error) {
+  var q Foods
+  xml.Unmarshal(b, &q)
+
+  return q, nil
+}
+
+func ParseError(b []byte) (Error, error) {
+  var q Error
+  xml.Unmarshal(b, &q)
+
+  return q, nil
 }

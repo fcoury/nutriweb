@@ -1,7 +1,6 @@
 package fatsecret
 
 import (
-	"encoding/xml"
 	"fmt"
 	"io/ioutil"
 	"math/rand"
@@ -56,17 +55,6 @@ func GetFood(id string) (*FoodDetails, *Error, error) {
 		return nil, nil, err
 	}
 	return &food_detail, nil, nil
-}
-
-func CheckError(result []byte) (*Error, error) {
-  if strings.Contains(string(result), "<error") {
-    error, err := ParseError(result)
-    if err != nil {
-      return nil, err
-    }
-    return &error, nil
-  }
-  return nil, nil
 }
 
 func GetFoodQuery(id string) ([]byte, error) {
@@ -130,33 +118,4 @@ func SendQuery(params map[string]string) ([]byte, error) {
 	}
 
 	return body, nil
-}
-
-func (s Food) String() string {
-	return fmt.Sprintf("%d - %s - %s - %s\n%s\n%s\n", s.Id, s.Name, s.Brand, s.Type, s.Url, s.Description)
-}
-
-func (s Foods) String() string {
-	return fmt.Sprintf("%d, %d", s.MaxResults, s.TotalResults)
-}
-
-func ParseFoodDetails(b []byte) (FoodDetails, error) {
-	var q FoodDetails
-	xml.Unmarshal(b, &q)
-
-	return q, nil
-}
-
-func ParseFoods(b []byte) (Foods, error) {
-	var q Foods
-	xml.Unmarshal(b, &q)
-
-	return q, nil
-}
-
-func ParseError(b []byte) (Error, error) {
-	var q Error
-	xml.Unmarshal(b, &q)
-
-	return q, nil
 }
