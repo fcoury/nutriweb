@@ -68,8 +68,8 @@ func main() {
 
 	// static
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("../www/" + r.URL.Path[1:])
-		http.ServeFile(w, r, "../www/"+r.URL.Path[1:])
+		fmt.Println("www/" + r.URL.Path[1:])
+		http.ServeFile(w, r, "www/"+r.URL.Path[1:])
 	})
 	http.ListenAndServe(":8080", nil)
 }
