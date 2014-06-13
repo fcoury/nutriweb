@@ -3,7 +3,7 @@ angular.module('Nutri').controller "MainCtrl", ['FoodFactory', '$scope', (FoodFa
   $scope.page = 1
   $scope.pages = 0
   $scope.term = "Rice"
-  $scope.foodFactory = new FoodFactory()
+  $scope.foodFactory = new FoodFactory(30)
 
   $scope.findFood = ->
     $scope.food = null

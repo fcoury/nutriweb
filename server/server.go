@@ -11,7 +11,7 @@ import (
 func foodsHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Search by: " + r.FormValue("q"))
 
-	foods, error, err := fatsecret.SearchFood(r.FormValue("q"), r.FormValue("page"))
+	foods, error, err := fatsecret.SearchFood(r.FormValue("q"), r.FormValue("page_size"), r.FormValue("page"))
 	if err != nil {
 		fmt.Fprintf(w, "Error 1")
 		return

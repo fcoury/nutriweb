@@ -27,6 +27,15 @@ func exe_cmd(cmd string, wg *sync.WaitGroup) {
 	wg.Done() // Need to signal to waitgroup that this goroutine is done
 }
 
+func SortedKeys(params map[string]string) []string {
+	r := make([]string, 0, len(params))
+	for k, _ := range params {
+		r = append(r, k)
+	}
+	sort.Strings(r)
+	return r
+}
+
 func SortMap(params map[string]string) map[string]string {
 	sortedMap := make(map[string]string)
 	var keys []string

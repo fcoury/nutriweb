@@ -13,8 +13,8 @@ import (
 	"utils"
 )
 
-func SearchFood(query string, page string) (*Foods, *Error, error) {
-	result, err := SearchFoodQuery(query, page)
+func SearchFood(query string, pageSize string, page string) (*Foods, *Error, error) {
+	result, err := SearchFoodQuery(query, pageSize, page)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -63,8 +63,12 @@ func GetFoodQuery(id string) ([]byte, error) {
 	return SendQuery(params)
 }
 
-func SearchFoodQuery(query string, pageStr string) ([]byte, error) {
+func SearchFoodQuery(query string, pageSizeStr string, pageStr string) ([]byte, error) {
 	page, err := strconv.Atoi(pageStr)
+	if err != nil {
+		return nil, err
+	}
+	pageSize, err := strconv.Atoi(pageSizeStr)
 	if err != nil {
 		return nil, err
 	}
@@ -75,6 +79,7 @@ func SearchFoodQuery(query string, pageStr string) ([]byte, error) {
 	params["method"] = "foods.search"
 	params["search_expression"] = strings.Replace(query, " ", "+", -1)
 	params["page_number"] = strconv.Itoa(page)
+	params["max_results"] = strconv.Itoa(pageSize)
 
 	body, err := SendQuery(params)
 	return body, err
@@ -94,12 +99,13 @@ func SendQuery(params map[string]string) ([]byte, error) {
 	params["oauth_timestamp"] = oauth_timestamp
 	params["oauth_version"] = "1.0"
 
-	params = utils.SortMap(params)
-
 	paramsStr := ""
-	for k, v := range params {
-		paramsStr += k + "=" + url.QueryEscape(v) + "&"
+	for _, k := range utils.SortedKeys(params) {
+		fmt.Println("Key: " + k)
+		paramsStr += k + "=" + url.QueryEscape(params[k]) + "&"
 	}
+	// for k, v := range params {
+	// }
 
 	paramsStr = strings.TrimSuffix(paramsStr, "&")
 
