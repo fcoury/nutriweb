@@ -1,8 +1,8 @@
 package fatsecret
 
 import (
-	"fmt"
 	"io/ioutil"
+	"log"
 	"math/rand"
 	"net/http"
 	"net/url"
@@ -101,7 +101,6 @@ func SendQuery(params map[string]string) ([]byte, error) {
 
 	paramsStr := ""
 	for _, k := range utils.SortedKeys(params) {
-		fmt.Println("Key: " + k)
 		paramsStr += k + "=" + url.QueryEscape(params[k]) + "&"
 	}
 	// for k, v := range params {
@@ -116,11 +115,11 @@ func SendQuery(params map[string]string) ([]byte, error) {
 
 	paramsStr += "&oauth_signature=" + sig
 
-	fmt.Println(fatSecretUrl + "?" + paramsStr)
+	log.Println("URL: " + fatSecretUrl + "?" + paramsStr)
 
 	resp, err := http.Get(fatSecretUrl + "?" + paramsStr)
 
-	fmt.Println(fmt.Sprintf("Response code: %d", resp.StatusCode))
+	log.Printf("Response code: %d\n", resp.StatusCode)
 
 	// Defer the closing of the body
 	defer resp.Body.Close()

@@ -3,13 +3,35 @@ package main
 import (
 	"encoding/json"
 	"fatsecret"
+	"flag"
 	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 )
 
+func main() {
+	port := flag.Int("port", 8080, "port to listen")
+	flag.Parse()
+
+	http.HandleFunc("/foods", foodsHandler)
+	http.HandleFunc("/food", foodHandler)
+
+	// static
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("Serving: www/%s\n", r.URL.Path[1:])
+		http.ServeFile(w, r, "www/"+r.URL.Path[1:])
+	})
+
+	log.Printf("Running on port %d\n", *port)
+
+	addr := fmt.Sprintf(":%d", *port)
+	err := http.ListenAndServe(addr, nil)
+	log.Printf("%s\n", err.Error())
+}
+
 func foodsHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Search by: " + r.FormValue("q"))
+	log.Println("Search by: " + r.FormValue("q"))
 
 	foods, error, err := fatsecret.SearchFood(r.FormValue("q"), r.FormValue("page_size"), r.FormValue("page"))
 	if err != nil {
@@ -18,7 +40,7 @@ func foodsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if error != nil {
-		fmt.Println("Error: " + error.Message)
+		log.Println("Error: " + error.Message)
 		js, err := json.Marshal(error)
 		if err != nil {
 			fmt.Fprintf(w, "Error 3")
@@ -31,7 +53,7 @@ func foodsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println("Found: " + strconv.Itoa(foods.TotalResults))
+	log.Println("Found: " + strconv.Itoa(foods.TotalResults) + " results")
 	js, err := json.Marshal(foods)
 	if err != nil {
 		fmt.Fprintf(w, "Error 2")
@@ -44,7 +66,7 @@ func foodsHandler(w http.ResponseWriter, r *http.Request) {
 
 func foodHandler(w http.ResponseWriter, r *http.Request) {
 	id := r.FormValue("id")
-	fmt.Println("Food id: " + id)
+	log.Println("Food id: " + id)
 	food_details, _, err := fatsecret.GetFood(id)
 
 	if err != nil {
@@ -60,16 +82,4 @@ func foodHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(js)
-}
-
-func main() {
-	http.HandleFunc("/foods", foodsHandler)
-	http.HandleFunc("/food", foodHandler)
-
-	// static
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("www/" + r.URL.Path[1:])
-		http.ServeFile(w, r, "www/"+r.URL.Path[1:])
-	})
-	http.ListenAndServe(":8080", nil)
 }
