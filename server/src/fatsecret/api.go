@@ -13,8 +13,8 @@ import (
 	"utils"
 )
 
-func SearchFood(query string) (*Foods, *Error, error) {
-	result, err := SearchFoodQuery(query)
+func SearchFood(query string, page string) (*Foods, *Error, error) {
+	result, err := SearchFoodQuery(query, page)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -63,10 +63,18 @@ func GetFoodQuery(id string) ([]byte, error) {
 	return SendQuery(params)
 }
 
-func SearchFoodQuery(query string) ([]byte, error) {
+func SearchFoodQuery(query string, pageStr string) ([]byte, error) {
+	page, err := strconv.Atoi(pageStr)
+	if err != nil {
+		return nil, err
+	}
+
+	page = page - 1
+
 	params := make(map[string]string)
 	params["method"] = "foods.search"
 	params["search_expression"] = strings.Replace(query, " ", "+", -1)
+	params["page_number"] = strconv.Itoa(page)
 
 	body, err := SendQuery(params)
 	return body, err
