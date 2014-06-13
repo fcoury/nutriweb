@@ -1,20 +1,17 @@
 package fatsecret
 
 import (
-	"crypto/hmac"
-	"crypto/sha1"
-	"encoding/base64"
 	"encoding/xml"
-  "math/rand"
 	"fmt"
-	"io"
 	"io/ioutil"
+	"math/rand"
 	"net/http"
 	"net/url"
-	// "regexp"
 	"strconv"
 	"strings"
 	"time"
+
+	"utils"
 )
 
 type Food struct {
@@ -33,21 +30,49 @@ type Foods struct {
 	FoodList     []Food `xml:"food"`
 }
 
+type Serving struct {
+	Id                     int     `xml:"serving_id"`
+	Description            string  `xml:"serving_description"`
+	Url                    string  `xml:"serving_url"`
+	MetricServingAmount    float32 `xml:"metric_serving_amount"`
+	MetricServingUnit      string  `xml:"metric_serving_unit"`
+	NumberOfUnits          float32 `xml:"number_of_units"`
+	MeasurementDescription string  `xml:"measurement_description"`
+	Calories               int     `xml:"calories"`
+	Carbohydrate           float32 `xml:"carbohydrate,omitempty"`
+	Protein                float32 `xml:"protein,omitempty"`
+	Fat                    float32 `xml:"fat,omitempty"`
+	SaturatedFat           float32 `xml:"saturated_fat,omitempty"`
+	PolyunsaturatedFat     float32 `xml:"polyunsaturated_fat,omitempty"`
+	MonounsaturatedFat     float32 `xml:"monounsaturated_fat,omitempty"`
+	TransFat               float32 `xml:"trans_fat,omitempty"`
+	Cholesterol            float32 `xml:"cholesterol,omitempty"`
+	Sodium                 float32 `xml:"sodium,omitempty"`
+	Potassium              float32 `xml:"potassium,omitempty"`
+	Fiber                  float32 `xml:"fiber,omitempty"`
+	Sugar                  float32 `xml:"sugar,omitempty"`
+}
+
+type Servings struct {
+	Servings []Serving `xml:"serving"`
+}
+
+type FoodDetails struct {
+	Id           int      `xml:"food_id"`
+	Name         string   `xml:"food_name"`
+	BrandName    string   `xml:"brand_name"`
+	Type         string   `xml:"food_type"`
+	Url          string   `xml:"food_url"`
+	ServingsList Servings `xml:"servings"`
+}
+
 type Error struct {
 	Code    int    `xml:"code"`
 	Message string `xml:"message"`
 }
 
-func (s Food) String() string {
-	return fmt.Sprintf("%d - %s - %s - %s\n%s\n%s\n", s.Id, s.Name, s.Brand, s.Type, s.Url, s.Description)
-}
-
-func (s Foods) String() string {
-	return fmt.Sprintf("%d, %d", s.MaxResults, s.TotalResults)
-}
-
 func SearchFood(query string) (*Foods, *Error, error) {
-	result, err := Query(query)
+	result, err := SearchFoodQuery(query)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -68,6 +93,103 @@ func SearchFood(query string) (*Foods, *Error, error) {
 	}
 }
 
+func GetFood(id string) (*FoodDetails, *Error, error) {
+	result, err := GetFoodQuery(id)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	fmt.Println(string(result))
+
+	if strings.Contains(string(result), "<error") {
+		return nil, nil, err
+	} else {
+		food_detail, err := ParseFoodDetails(result)
+		if err != nil {
+			return nil, nil, err
+		}
+		return &food_detail, nil, nil
+	}
+}
+
+func GetFoodQuery(id string) ([]byte, error) {
+	params := map[string]string{"method": "food.get", "food_id": id}
+
+	return SendQuery(params)
+}
+
+func SearchFoodQuery(query string) ([]byte, error) {
+	params := make(map[string]string)
+	params["method"] = "foods.search"
+	params["search_expression"] = strings.Replace(query, " ", "+", -1)
+
+	body, err := SendQuery(params)
+	return body, err
+}
+
+func SendQuery(params map[string]string) ([]byte, error) {
+	fatSecretUrl := "http://platform.fatsecret.com/rest/server.api"
+	fatSecretConsumerKey := "62cc7c5caaf542668006fc70cbfdabae"
+	fatSecretAccessSecret := "de666f86e8634a77947c02fc39cf33cd"
+
+	oauth_timestamp := strconv.FormatInt(time.Now().Unix(), 10)
+	oauth_nonce := strconv.FormatInt(rand.Int63(), 16) // + strconv.FormatInt(rand.Int63(), 16)
+
+	params["oauth_consumer_key"] = fatSecretConsumerKey
+	params["oauth_nonce"] = oauth_nonce
+	params["oauth_signature_method"] = "HMAC-SHA1"
+	params["oauth_timestamp"] = oauth_timestamp
+	params["oauth_version"] = "1.0"
+
+	params = utils.SortMap(params)
+
+	paramsStr := ""
+	for k, v := range params {
+		paramsStr += k + "=" + url.QueryEscape(v) + "&"
+	}
+
+	paramsStr = strings.TrimSuffix(paramsStr, "&")
+
+	sigBaseStr := "GET&" + url.QueryEscape(fatSecretUrl) + "&" + url.QueryEscape(paramsStr)
+	sharedSecret := fatSecretAccessSecret + "&"
+
+	sig := url.QueryEscape(utils.Sign(sigBaseStr, sharedSecret))
+
+	paramsStr += "&oauth_signature=" + sig
+
+	fmt.Println(fatSecretUrl + "?" + paramsStr)
+
+	resp, err := http.Get(fatSecretUrl + "?" + paramsStr)
+
+	fmt.Println(fmt.Sprintf("Response code: %d", resp.StatusCode))
+
+	// Defer the closing of the body
+	defer resp.Body.Close()
+
+	// Read the content into a byte array
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	return body, nil
+}
+
+func (s Food) String() string {
+	return fmt.Sprintf("%d - %s - %s - %s\n%s\n%s\n", s.Id, s.Name, s.Brand, s.Type, s.Url, s.Description)
+}
+
+func (s Foods) String() string {
+	return fmt.Sprintf("%d, %d", s.MaxResults, s.TotalResults)
+}
+
+func ParseFoodDetails(b []byte) (FoodDetails, error) {
+	var q FoodDetails
+	xml.Unmarshal(b, &q)
+
+	return q, nil
+}
+
 func ParseFoods(b []byte) (Foods, error) {
 	var q Foods
 	xml.Unmarshal(b, &q)
@@ -80,133 +202,4 @@ func ParseError(b []byte) (Error, error) {
 	xml.Unmarshal(b, &q)
 
 	return q, nil
-}
-
-func Sign(base string, secret string) (string) {
-  hasher := hmac.New(sha1.New, []byte(secret))
-  io.WriteString(hasher, base)
-
-  return base64.StdEncoding.EncodeToString(hasher.Sum(nil))
-}
-
-func Get(getUrl string, params map[string]string) ([]byte, error) {
-	fatSecretAccessSecret := "de666f86e8634a77947c02fc39cf33cd"
-	// getUrl = getUrl + "?"
-
-  paramsStr := ""
-	for k, v := range params {
-		paramsStr += k + "=" + url.QueryEscape(v) + "&"
-	}
-
-	paramsStr = strings.TrimSuffix(paramsStr, "&")
-
-  fmt.Println(getUrl)
-	fmt.Println(paramsStr)
-
-  sigBaseStr := "GET&" + url.QueryEscape(getUrl) + "&" + url.QueryEscape(paramsStr)
-  sharedSecret := fatSecretAccessSecret + "&"
-
-  sig := url.QueryEscape(Sign(sigBaseStr, sharedSecret))
-  fmt.Println("Sig: " + sig)
-
-	paramsStr += "&oauth_signature=" + sig
-
-	fmt.Println(getUrl + "?" + paramsStr)
-
-	resp, err := http.Get(getUrl + "?" + paramsStr)
-
-	fmt.Println(fmt.Sprintf("Response code: %d", resp.StatusCode))
-
-	// Defer the closing of the body
-	defer resp.Body.Close()
-
-	// Read the content into a byte array
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-
-	return body, nil
-}
-
-func Post(postUrl string, params map[string]string) ([]byte, error) {
-  fatSecretAccessSecret := "de666f86e8634a77947c02fc39cf33cd"
-	values := url.Values{}
-
-	for k, v := range params {
-		values.Add(k, v)
-	}
-
-  paramStr := ""
-
-  for k, v := range values {
-    paramStr = paramStr + "&" + k + "=" + url.QueryEscape(v[0])
-  }
-
-  paramStr = strings.TrimPrefix(paramStr, "&")
-
-  sigBaseStr := "POST&" + url.QueryEscape(postUrl) + "&" + url.QueryEscape(paramStr)
-  sharedSecret := fatSecretAccessSecret + "&"
-
-  fmt.Println("sigBaseStr: " + sigBaseStr)
-
-  oauth_signature := Sign(sigBaseStr, sharedSecret)
-
-  values.Add("oauth_signature", oauth_signature)
-
-	resp, err := http.PostForm(postUrl, values)
-	if err != nil {
-		return nil, err
-	}
-
-	fmt.Println(fmt.Sprintf("Response code: %d", resp.StatusCode))
-
-	// Defer the closing of the body
-	defer resp.Body.Close()
-
-	// Read the content into a byte array
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-
-	return body, nil
-}
-
-// This function fetch the content of a URL will return it as an
-// array of bytes if retrieved successfully.
-func Query(query string) ([]byte, error) {
-	fatSecretUrl := "http://platform.fatsecret.com/rest/server.api"
-	fatSecretConsumerKey := "62cc7c5caaf542668006fc70cbfdabae"
-	fatSecretAccessSecret := "de666f86e8634a77947c02fc39cf33cd"
-
-	oauth_timestamp := strconv.FormatInt(time.Now().Unix(), 10)
-  oauth_nonce := strconv.FormatInt(rand.Int63(), 16) // + strconv.FormatInt(rand.Int63(), 16)
-
-	apiValues := make(map[string]string)
-	apiValues["method"] = "foods.search"
-	apiValues["oauth_consumer_key"] = fatSecretConsumerKey
-	apiValues["oauth_nonce"] = oauth_nonce
-	apiValues["oauth_signature_method"] = "HMAC-SHA1"
-	apiValues["oauth_timestamp"] = oauth_timestamp
-	apiValues["oauth_version"] = "1.0"
-	apiValues["search_expression"] = strings.Replace(query, " ", "+", -1)
-
-	paramStr := ""
-
-	for k, v := range apiValues {
-		paramStr = paramStr + "&" + k + "=" + url.QueryEscape(v)
-	}
-
-	paramStr = strings.TrimPrefix(paramStr, "&")
-
-	sigBaseStr := "POST&" + url.QueryEscape(fatSecretUrl) + "&" + url.QueryEscape(paramStr)
-	sharedSecret := fatSecretAccessSecret + "&"
-
-	oauth_signature := Sign(sigBaseStr, sharedSecret)
-
-	fmt.Println("Signature: " + oauth_signature)
-
-	body, err := Get(fatSecretUrl, apiValues)
-	return body, err
 }

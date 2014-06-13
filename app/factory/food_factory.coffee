@@ -5,6 +5,8 @@ angular.module('Nutri').factory "FoodFactory", ($location, $q, $http) ->
 
     search: (term) -> @request ["/foods?q=#{term}"]
 
+    get: (id) -> @request ["/food?id=#{id}"]
+
     request: (method, config) ->
       if !config and angular.isObject(method)
         config = method

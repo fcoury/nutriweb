@@ -15,12 +15,30 @@
     <input ng-model="term">
     <button ng-click="findFood()">Search</button>
 
+    <div ng-show="food">
+      <p>
+        <b>{{food.Name}}</b>
+      </p>
+
+      <p>
+        {{food.ServingList|json}}
+        Servings:
+        <ul>
+          <li ng-repeat="serving in food.ServingsList.Servings">
+            <i>{{ serving.Description }}</i>
+            has {{ serving.Calories }} kcal,
+            {{ serving.Protein }}g protein
+          </li>
+        </ul>
+      </p>
+    </div>
+
     <div ng-show="foods">
       {{ foods.TotalResults }} results
 
       <ul>
         <li ng-repeat="food in foods.FoodList">
-          <a href="{{ food.Url }}">{{ food.Brand }}<span ng-show="food.Brand"> - </span>{{ food.Name }}</a>
+          <a href ng-click="getFood(food.Id)">{{ food.Brand }}<span ng-show="food.Brand"> - </span>{{ food.Name }}</a>
         </li>
       </ul>
     </div>

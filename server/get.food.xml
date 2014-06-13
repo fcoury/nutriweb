@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<food xmlns="http://platform.fatsecret.com/api/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://platform.fatsecret.com/api/1.0/ http://platform.fatsecret.com/api/1.0/fatsecret.xsd">
+  <food_id>4501</food_id>
+  <food_name>White Rice</food_name>
+  <food_type>Generic</food_type>
+  <food_url>http://www.fatsecret.com/calories-nutrition/generic/rice-white-cooked-regular</food_url>
+  <servings>
+    <serving>
+      <serving_id>16834</serving_id>
+      <serving_description>1 cup cooked</serving_description>
+      <serving_url>http://www.fatsecret.com/calories-nutrition/generic/rice-white-cooked-regular?portionid=16834&amp;portionamount=1.000</serving_url>
+      <metric_serving_amount>158.000</metric_serving_amount>
+      <metric_serving_unit>g</metric_serving_unit>
+      <number_of_units>1.000</number_of_units>
+      <measurement_description>cup, cooked</measurement_description>
+      <calories>204</calories>
+      <carbohydrate>44.08</carbohydrate>
+      <protein>4.20</protein>
+      <fat>0.44</fat>
+      <saturated_fat>0.120</saturated_fat>
+      <polyunsaturated_fat>0.119</polyunsaturated_fat>
+      <monounsaturated_fat>0.138</monounsaturated_fat>
+      <cholesterol>0</cholesterol>
+      <sodium>577</sodium>
+      <potassium>55</potassium>
+      <fiber>0.6</fiber>
+      <sugar>0.08</sugar>
+      <vitamin_a>0</vitamin_a>
+      <vitamin_c>0</vitamin_c>
+      <calcium>2</calcium>
+      <iron>10</iron>
+    </serving>
+    <serving>
+      <serving_id>15284</serving_id>
+      <serving_description>1 cup, dry, yields</serving_description>
+      <serving_url>http://www.fatsecret.com/calories-nutrition/generic/rice-white-cooked-regular?portionid=15284&amp;portionamount=1.000</serving_url>
+      <metric_serving_amount>570.000</metric_serving_amount>
+      <metric_serving_unit>g</metric_serving_unit>
+      <number_of_units>1.000</number_of_units>
+      <measurement_description>cup, dry, yields</measurement_description>
+      <calories>735</calories>
+      <carbohydrate>159.03</carbohydrate>
+      <protein>15.16</protein>
+      <fat>1.60</fat>
+      <saturated_fat>0.432</saturated_fat>
+      <polyunsaturated_fat>0.429</polyunsaturated_fat>
+      <monounsaturated_fat>0.497</monounsaturated_fat>
+      <cholesterol>0</cholesterol>
+      <sodium>2080</sodium>
+      <potassium>200</potassium>
+      <fiber>2.3</fiber>
+      <sugar>0.29</sugar>
+      <vitamin_a>0</vitamin_a>
+      <vitamin_c>0</vitamin_c>
+      <calcium>6</calcium>
+      <iron>38</iron>
+    </serving>
+    <serving>
+      <serving_id>18252</serving_id>
+      <serving_description>1 oz, dry, yields</serving_description>
+      <serving_url>http://www.fatsecret.com/calories-nutrition/generic/rice-white-cooked-regular?portionid=18252&amp;portionamount=1.000</serving_url>
+      <metric_serving_amount>87.000</metric_serving_amount>
+      <metric_serving_unit>g</metric_serving_unit>
+      <number_of_units>1.000</number_of_units>
+      <measurement_description>oz, dry, yields</measurement_description>
+      <calories>112</calories>
+      <carbohydrate>24.27</carbohydrate>
+      <protein>2.31</protein>
+      <fat>0.24</fat>
+      <saturated_fat>0.066</saturated_fat>
+      <polyunsaturated_fat>0.065</polyunsaturated_fat>
+      <monounsaturated_fat>0.076</monounsaturated_fat>
+      <cholesterol>0</cholesterol>
+      <sodium>318</sodium>
+      <potassium>30</potassium>
+      <fiber>0.3</fiber>
+      <sugar>0.04</sugar>
+      <vitamin_a>0</vitamin_a>
+      <vitamin_c>0</vitamin_c>
+      <calcium>1</calcium>
+      <iron>6</iron>
+    </serving>
+    <serving>
+      <serving_id>17592</serving_id>
+      <serving_description>1 serving (105 g)</serving_description>
+      <serving_url>http://www.fatsecret.com/calories-nutrition/generic/rice-white-cooked-regular?portionid=17592&amp;portionamount=1.000</serving_url>
+      <metric_serving_amount>105.000</metric_serving_amount>
+      <metric_serving_unit>g</metric_serving_unit>
+      <number_of_units>1.000</number_of_units>
+      <measurement_description>serving (105g)</measurement_description>
+      <calories>135</calories>
+      <carbohydrate>29.30</carbohydrate>
+      <protein>2.79</protein>
+      <fat>0.29</fat>
+      <saturated_fat>0.080</saturated_fat>
+      <polyunsaturated_fat>0.079</polyunsaturated_fat>
+      <monounsaturated_fat>0.092</monounsaturated_fat>
+      <cholesterol>0</cholesterol>
+      <sodium>383</sodium>
+      <potassium>37</potassium>
+      <fiber>0.4</fiber>
+      <sugar>0.05</sugar>
+      <vitamin_a>0</vitamin_a>
+      <vitamin_c>0</vitamin_c>
+      <calcium>1</calcium>
+      <iron>7</iron>
+    </serving>
+    <serving>
+      <serving_id>53181</serving_id>
+      <serving_description>100 g</serving_description>
+      <serving_url>http://www.fatsecret.com/calories-nutrition/generic/rice-white-cooked-regular?portionid=53181&amp;portionamount=100.000</serving_url>
+      <metric_serving_amount>100.000</metric_serving_amount>
+      <metric_serving_unit>g</metric_serving_unit>
+      <number_of_units>100.000</number_of_units>
+      <measurement_description>g</measurement_description>
+      <calories>129</calories>
+      <carbohydrate>27.90</carbohydrate>
+      <protein>2.66</protein>
+      <fat>0.28</fat>
+      <saturated_fat>0.076</saturated_fat>
+      <polyunsaturated_fat>0.075</polyunsaturated_fat>
+      <monounsaturated_fat>0.087</monounsaturated_fat>
+      <cholesterol>0</cholesterol>
+      <sodium>365</sodium>
+      <potassium>35</potassium>
+      <fiber>0.4</fiber>
+      <sugar>0.05</sugar>
+      <vitamin_a>0</vitamin_a>
+      <vitamin_c>0</vitamin_c>
+      <calcium>1</calcium>
+      <iron>7</iron>
+    </serving>
+  </servings>
+</food>
