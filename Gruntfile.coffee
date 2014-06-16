@@ -13,6 +13,11 @@ module.exports = (grunt) ->
         ext: '.js'
 
     concat:
+      bootstrap:
+        files:
+          'www/css/vendor/bootstrap.css': ['app/bower_components/bootstrap/dist/css/bootstrap.css']
+          'www/js/vendor/bootstrap.js': ['app/bower_components/bootstrap/dist/js/bootstrap.js']
+
       jquery:
         files:
           'www/js/vendor/jquery.js': ['app/bower_components/jquery/dist/jquery.js']
