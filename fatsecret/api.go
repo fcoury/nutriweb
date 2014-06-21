@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"utils"
+	"github.com/fcoury/nutriweb/utils"
 )
 
 func SearchFood(query string, pageSize string, page string) (*Foods, *Error, error) {

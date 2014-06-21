@@ -2,12 +2,13 @@ package main
 
 import (
 	"encoding/json"
-	"fatsecret"
 	"flag"
 	"fmt"
 	"log"
 	"net/http"
 	"strconv"
+
+	"github.com/fcoury/nutriweb/fatsecret"
 )
 
 func main() {
